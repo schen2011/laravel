@@ -60,6 +60,8 @@ return [
             'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
+            //ADD THIS FOR MAC
+            'unix_socket' => '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
             'prefix'    => '',
             'strict'    => false,
         ],

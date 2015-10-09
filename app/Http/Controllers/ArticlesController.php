@@ -1,12 +1,13 @@
-<?php 
+<?php
+
 namespace App\Http\Controllers;
 
+use App\Article;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Task;
 use Illuminate\Http\Request;
 
-class TasksController extends Controller
+class ArticlesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,7 @@ class TasksController extends Controller
      */
     public function index()
     {
-        return view('tasks.index', compact('project'));
+        //
     }
 
     /**
@@ -25,7 +26,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        return view('tasks.create', compact('project'));
+        return View('articles.create');
     }
 
     /**
@@ -36,7 +37,10 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = new Article();
+        $article->title = Input::get('title'); 
+        $article->text = Input::get('text');
+        $article->save();
     }
 
     /**
@@ -45,9 +49,11 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task)
+    public function show($id)
     {
-        return view('tasks.show', compact('project', 'task'));
+        $article = Article::find($id);
+
+        return View::make('articles.show', array('article'=>$article));
     }
 
     /**
@@ -56,9 +62,9 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit($id)
     {
-        return view('tasks.edit', compact('project', 'task'));
+        //
     }
 
     /**
@@ -68,7 +74,7 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -79,13 +85,8 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
         //
-    }
-    
-    public function project()
-    {
-        return $this->belongsTo('App\Project');
     }
 }

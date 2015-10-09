@@ -27,3 +27,9 @@ Route::bind('tasks', function($value, $route) {
 Route::bind('projects', function($value, $route) {
 	return App\Project::whereSlug($value)->first();
 });
+
+Route::model('articles', 'Article');
+Route::resource('articles', 'ArticlesController');
+Route::bind('articles', function($value, $route) {
+	return App\Article::whereSlug($value)->first();
+});
