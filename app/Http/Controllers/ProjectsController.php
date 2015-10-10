@@ -6,11 +6,16 @@ use App\Project;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Database\Eloquent\Model;
+use Input;
+use Redirect;
         
 class ProjectsController extends Controller
 {
+    protected $rules = [
+            'name' => ['required', 'min:3'],
+            'slug' => ['required'],
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +45,11 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, $this->rules);
+
+        $input = Input::all();
+        Project::create($input);
+        return Redirect::route('projects.index')->with('message', 'Project created');
     }
 
     /**
@@ -62,7 +71,7 @@ class ProjectsController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -72,9 +81,12 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(Project $project)
     {
-        //
+        $this->validate($request, $this->rules);
+        $input = array_except(Input::all(), '_method');
+	$project->update($input);
+	return Redirect::route('projects.show', $project->slug)->with('message', 'Project updated.');
     }
 
     /**
@@ -85,11 +97,9 @@ class ProjectsController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+	return Redirect::route('projects.index')->with('message', 'Project deleted.');
     }
     
-    public function tasks()
-    {
-        return $this->hasMany('App\Task');
-    }
+
 }
