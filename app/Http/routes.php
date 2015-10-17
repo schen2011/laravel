@@ -33,3 +33,6 @@ Route::resource('articles', 'ArticlesController');
 Route::bind('articles', function($value, $route) {
 	return App\Article::whereSlug($value)->first();
 });
+
+
+Route:get('display', 'ProjectsController@display');

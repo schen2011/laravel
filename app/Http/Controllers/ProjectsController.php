@@ -101,5 +101,12 @@ class ProjectsController extends Controller
 	return Redirect::route('projects.index')->with('message', 'Project deleted.');
     }
     
+    public function display()
+    {
+        //return 'show displays';
+        $projects = Project::all();
+        return $projects;
+    }
+    
 
 }
