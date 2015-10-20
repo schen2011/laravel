@@ -34,5 +34,10 @@ Route::bind('articles', function($value, $route) {
 	return App\Article::whereSlug($value)->first();
 });
 
+Route::model('userkeys', 'UserKey');
+Route::resource('userkeys', 'UserKeyController');
+Route::bind('userapikeymapping', function($value, $route) {
+	return App\UserKey::all();
+});
 
 Route:get('display', 'ProjectsController@display');
